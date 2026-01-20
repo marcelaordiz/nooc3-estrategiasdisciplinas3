@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategias por Disciplina - HumanIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --morado-oscuro: #3d1f4d;
+            --azul: #4a90e2;
+            --verde: #a4c639;
+            --naranja: #ff6b35;
+            --morado-claro: #b565d8;
+            --amarillo: #ffc107;
+            --bg-gris: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Dosis', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: var(--bg-gris);
+            padding: 0;
+        }
+
+        .main-header {
+            background: var(--morado-oscuro);
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .main-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+
+        .accordion-item {
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .accordion-button {
+            width: 100%;
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 1.5rem 2rem;
+            font-family: 'Dosis', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .accordion-button:hover {
+            filter: brightness(1.1);
+        }
+
+        .accordion-button::after {
+            content: '+';
+            font-size: 2rem;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .accordion-button.active::after {
+            transform: rotate(45deg);
+        }
+
+        .accordion-item:nth-child(1) .accordion-button {
+            background: var(--azul);
+        }
+
+        .accordion-item:nth-child(2) .accordion-button {
+            background: var(--verde);
+        }
+
+        .accordion-item:nth-child(3) .accordion-button {
+            background: var(--naranja);
+        }
+
+        .accordion-item:nth-child(4) .accordion-button {
+            background: var(--morado-claro);
+        }
+
+        .accordion-item:nth-child(5) .accordion-button {
+            background: var(--amarillo);
+            color: #333;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            background: white;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 2rem;
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+            padding: 2rem;
+        }
+
+        .accordion-content p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .preguntas-section {
+            background: var(--amarillo);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .preguntas-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--morado-oscuro);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .pregunta-item {
+            font-size: 1.15rem;
+            color: #333;
+            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            font-weight: 500;
+            border-left: 4px solid var(--morado-oscuro);
+        }
+
+        .pregunta-item:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .accordion-button {
+                padding: 1.2rem 1.5rem;
+                font-size: 1.2rem;
+            }
+
+            .accordion-content.active {
+                padding: 1.5rem;
+            }
+
+            .accordion-content p {
+                font-size: 1.05rem;
+            }
+
+            .preguntas-section {
+                padding: 1.8rem;
+            }
+
+            .preguntas-title {
+                font-size: 1.3rem;
+            }
+
+            .pregunta-item {
+                font-size: 1.05rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        /* AnimaciÃ³n de entrada */
+        .accordion-item {
+            animation: slideIn 0.5s ease backwards;
+        }
+
+        .accordion-item:nth-child(1) { animation-delay: 0.1s; }
+        .accordion-item:nth-child(2) { animation-delay: 0.2s; }
+        .accordion-item:nth-child(3) { animation-delay: 0.3s; }
+        .accordion-item:nth-child(4) { animation-delay: 0.4s; }
+        .accordion-item:nth-child(5) { animation-delay: 0.5s; }
+        .preguntas-section { animation-delay: 0.6s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-header">
+        <h1>Estrategias para abordar IA y vida cotidiana en distintas disciplinas</h1>
+    </div>
+
+    <div class="container">
+        
+        <div class="accordion-item">
+            <button class="accordion-button">
+                Ciencias Sociales
+            </button>
+            <div class="accordion-content">
+                <p>Analizá cómo la IA configura relaciones sociales y de poder en entornos digitales. Trabajá sobre burbujas de filtro como fenómeno social que fragmenta el espacio público, sobre desigualdades en el acceso a tecnología, sobre concentración de poder en empresas que controlan plataformas. Podés usar casos concretos como el escándalo de Cambridge Analytica o investigaciones sobre cómo la IA amplifica desinformación. Invitá a tus estudiantes a mapear sus propias redes sociales: ¿con quiénes se conectan? ¿qué diversidad (o falta de ella) hay en sus feeds? ¿cómo se construye opinión pública cuando cada uno ve una realidad diferente?</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-button">
+                Lengua y Literatura
+            </button>
+            <div class="accordion-content">
+                <p>Trabajá sobre autoría, originalidad y creatividad en la era de IA generativa. Analizá textos producidos por ChatGPT: ¿qué características tienen? ¿en qué se diferencian de textos escritos por humanos? ¿qué se gana y qué se pierde cuando delegamos la escritura? Proponé que tus estudiantes experimenten: escribir un texto sin IA, después pedirle a ChatGPT que escriba sobre el mismo tema, comparar, reflexionar. También podés trabajar sobre narrativas: cómo las historias que consumimos en redes configuran nuestra percepción del mundo, qué voces están presentes y cuáles ausentes, cómo la IA puede reproducir o desafiar estereotipos.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-button">
+                Matemática
+            </button>
+            <div class="accordion-content">
+                <p>Explicá de manera accesible cómo funcionan los sistemas de IA: qué son los datos, cómo se entrenan modelos, qué significa "predecir", cómo se mide precisión. Trabajá con ejemplos concretos: si la IA te recomienda videos, ¿qué variables está considerando? ¿cómo "calcula" qué mostrarte? Esto permite desmitificar la IA mostrando que detrás hay matemática comprensible, no magia. Podés proponer que diseñen un sistema simple de recomendación: si tuvieras que sugerirle películas a un amigo, ¿qué datos necesitarías? ¿qué criterios usarías? Esto ayuda a entender la lógica de estos sistemas.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-button">
+                Formación Ética y Ciudadana
+            </button>
+            <div class="accordion-content">
+                <p>Debatí sobre autonomía personal en entornos mediados por IA, sobre privacidad y consentimiento informado, sobre responsabilidad cuando la tecnología toma decisiones que nos afectan. ¿Qué significa elegir libremente cuando las opciones están pre-configuradas? ¿Tenemos derecho a saber qué datos se recopilan sobre nosotros y cómo se usan? ¿Quién es responsable cuando la IA genera contenido falso o dañino? ¿Cómo construimos ciudadanía digital consciente? Estas preguntas conectan directamente con contenidos de derechos, democracia, justicia.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-button">
+                Informática/Tecnología
+            </button>
+            <div class="accordion-content">
+                <p>Si tenés esta materia, es el espacio ideal para experimentar directamente con IA generativa. Proponé que tus estudiantes la usen para diferentes propósitos y reflexionen sobre los resultados: ¿cuándo es útil? ¿cuándo no? ¿qué errores comete? ¿cómo mejorar los prompts? También podés trabajar sobre privacidad práctica: revisar configuraciones de apps, entender qué permisos dan, aprender a borrar datos, usar herramientas que respetan privacidad. Esto empodera a los estudiantes con habilidades concretas.</p>
+            </div>
+        </div>
+
+        <div class="preguntas-section">
+            <h3 class="preguntas-title">Preguntas para abrir conversación con tus estudiantes</h3>
+            <div class="pregunta-item">¿Alguna vez te diste cuenta de que solo ves cierto tipo de contenidos en tus redes?</div>
+            <div class="pregunta-item">¿Usaste IA generativa para hacer trabajos escolares? ¿Cómo decidís qué es "trampa" y qué es "ayuda"?</div>
+            <div class="pregunta-item">¿Sabés qué datos tuyos están usando las apps que usás todos los días?</div>
+            <div class="pregunta-item">¿Te parece que podés elegir libremente cuando la IA ya te filtró las opciones?</div>
+            <div class="pregunta-item">¿Qué aprendiste con otros compañeros que no hubieras aprendido solo con una plataforma adaptativa?</div>
+        </div>
+
+    </div>
+
+    <script>
+        // Funcionalidad del acordeÃ³n
+        const buttons = document.querySelectorAll('.accordion-button');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isActive = button.classList.contains('active');
+                
+                // Cerrar todos los acordeones
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.nextElementSibling.classList.remove('active');
+                });
+                
+                // Abrir el clickeado si no estaba activo
+                if (!isActive) {
+                    button.classList.add('active');
+                    content.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
